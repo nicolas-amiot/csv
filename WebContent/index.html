@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Hello World</title>
+	</head>
+	<body>
+		<a href="Test" onclick="exportFile()">Export</a>
+		<div id="fileDownload" style="display: none;">Please wait your downloaded file</div>
+		<script type="text/javascript">
+			function exportFile() {
+				fileDownload(true);
+				checkCookie(fileDownload);
+			}
+			
+			function fileDownload(display) {
+				var fileDownload = document.getElementById("fileDownload");
+				if(display) {
+					fileDownload.style.display = "";
+				} else {
+					fileDownload.style.display = "none";
+				}
+			}
+		
+			function checkCookie() {
+				var cookieName = "fileDownload";
+				var cookieValue = "true";
+				var cokkiePath = "/";
+				
+				var cookie = getCookie(cookieName);
+				if(cookie == cookieValue) {
+					removeCookie(cookieName, cokkiePath);
+					fileDownload(false);
+				} else {
+					setTimeout(checkCookie, 100); 
+				}
+			}
+			
+			function getCookie(cookieName) {
+				var name = cookieName + "=";
+				var decodedCookie = decodeURIComponent(document.cookie);
+				var ca = decodedCookie.split(';');
+				for(var i = 0; i <ca.length; i++) {
+					var c = ca[i];
+					while (c.charAt(0) == ' ') {
+						c = c.substring(1);
+					}
+					if (c.indexOf(name) == 0) {
+						return c.substring(name.length, c.length);
+					}
+				}
+				 return null;
+			}
+			
+			function removeCookie(cookieName, cookiePath) {
+				document.cookie = cookieName + "=; path=" + cookiePath + "; expires=" + new Date(0).toUTCString() + ";";
+			}
+		</script>
+	</body>
+</html>
